@@ -27,9 +27,11 @@ typedef struct 			s_stack_a
 typedef struct			s_stack
 {
 	int 				data;
-	t_stack_a			a;
-	t_stack_b			b;
-}						t_stacka;
+	t_stack_a			*a;
+	t_stack_b			*b;
+	t_stack_a			*first_a;
+	t_stack_b			*first_b;
+}						t_stack;
 
 
 //__________________________StrSplit
@@ -379,26 +381,23 @@ void ft_search_duplicate(int *dup, int count)
 
 //1 2 3 4 5 6 7 8 9
 
-t_stack_a	*ft_create_a(t_data *new)
+void	*ft_create_a(t_data *new, t_stack *stack)
 {
-	t_stack_a	*new_list;
-	t_stack_a	*first_list;
 	int			i;
 
 	i = 0;
-	new_list = (t_stack_a *)malloc(sizeof(t_stack_a));
-	first_list = new_list;
+	stack->a = (t_stack_a *)malloc(sizeof(t_stack_a));
+	stack->first_a = stack->a;
 	while (i < new->point_a)
 	{
-		new_list->next = (t_stack_a *)malloc(sizeof(t_stack_a));
-		new_list->data = new->a[i];
+		stack->a->next = (t_stack_a *)malloc(sizeof(t_stack_a));
+		stack->a->data = new->a[i];
 		if (i == new->point_a - 1)
-			new_list->next = NULL;
+			stack->a->next = NULL;
 		else
-			new_list = new_list->next;
+			stack->a = stack->a->next;
 		i++;
 	}
-	return (first_list);
 }
 
 void 	ft_sb(t_stack_b *first)
@@ -410,15 +409,14 @@ void 	ft_sb(t_stack_b *first)
 	first->next->data = buff;
 }
 
-t_stack_b		*ft_create_b(t_data *new)
+void		*ft_create_b(t_data *new, t_stack *stack)
 {
 	t_stack_b	*new_list;
-	t_stack_b	*first_list;
 	int			i;
 
 	i = 0;
 	new_list = (t_stack_b *)malloc(sizeof(t_stack_b));
-	first_list = new_list;
+	stack->first_b = new_list;
 	while (i < new->point_a)
 	{
 		new_list->next = (t_stack_b *)malloc(sizeof(t_stack_b));
@@ -429,10 +427,9 @@ t_stack_b		*ft_create_b(t_data *new)
 			new_list = new_list->next;
 		i++;
 	}
-	return (first_list);
 }
 
-void 	ft_sa(t_stack_a *first)
+/*void 	ft_sa(t_stack_a *first)
 {
 	int		buff;
 
@@ -441,44 +438,42 @@ void 	ft_sa(t_stack_a *first)
 	first->next->data = buff;
 }
 
-void 	ft_pb(t_stack_a *first)
+void 	ft_sb(t_stack_a *first)
 {
 	int		buff;
 
 	buff = first->data;
 	first->data = first->next->data;
 	first->next->data = buff;
-}
+}*/
 
 
-//pa: push a - возьмите первый элемент вверху  b и поместите его вверху  a.
+//pb: push b - возьмите первый элемент вверху  a и поместите его вверху  b.
 //Ничего не делать, если  b пусто.
 
-void	pb(t_stack_a *fa, t_stack_b *fb)
+void	ft_pb(t_stack_a *fa, t_stack_b *fb)
 {
-	
+
 }
 
 void	ft_duplicate_check(t_data *new)
 {
 	int *dup;
-	t_stack_a *first_a;
 	t_stack_a *next;
-	t_stack_b *stack_b;
+	t_stack		stack;
 
-	stack_b =
 	dup = (int *) malloc(sizeof(int) * (new->point_a));
 	dup = ft_intcpy(dup, new->a, new->point_a);
 	ft_quick_sort(dup, 0, new->point_a - 1);
 	ft_search_duplicate(dup, new->point_a - 1);
-	first_a = ft_create_a(new);
-	stack_b = ft_create_b(new);
+	ft_create_a(new,&stack);
+	ft_create_b(new, &stack);
 	//ft_sa(first_list);
-	ft_pb(first_a,stack_b);
-	while (first_a)
+	//ft_pb(first_a,stack_b);
+	while (stack.first_a)
 	{
-		printf("[%d]\n", first_a->data);
-		first_a = first_a->next;
+		printf("[%d]\n", stack.first_a->data);
+		stack.first_a = stack.first_a->next;
 	}
 }
 
