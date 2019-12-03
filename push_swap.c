@@ -12,6 +12,26 @@ typedef struct			s_data
 	int					point_a;
 }						t_data;
 
+typedef struct 			s_stack_b
+{
+	int 				data;
+	struct s_stack_b	*next;
+}						t_stack_b;
+
+typedef struct 			s_stack_a
+{
+	int 				data;
+	struct s_stack_a	*next;
+}						t_stack_a;
+
+typedef struct			s_stack
+{
+	int 				data;
+	t_stack_a			a;
+	t_stack_b			b;
+}						t_stacka;
+
+
 //__________________________StrSplit
 
 static int		ft_countword(char const *s)
@@ -144,6 +164,7 @@ void	ft_error()
 	write(2, "Error!", 6);
 	exit(1);
 }
+
 /*
 ** ft_valid_str - Проверяем строку на валидность.
 ** Все ли правильно записанно и нет ли лишних символов
@@ -201,7 +222,6 @@ int		ft_number_availability(const char *str)
 	return (0);
 }
 
-//  "0-0924" 959 "59"
 void ft_validate(int argc, char **argv)
 {
 	int i;
@@ -216,10 +236,9 @@ void ft_validate(int argc, char **argv)
 }
 
 /*
-** ft_array_separation - В данной фунции мы будем
-** разбивать строки(строку) на массив чисел.
-** Будут использованы функции которые я написал
-** во время провекта libft.
+** ft_stacking - В данной фунции мы переписываем
+** данные из buff в new->а(массив int в структуре t_data)
+** определенное кол-во раз(count).
 */
 
 void	ft_stacking(t_data *new,int *buff,int count)
@@ -262,6 +281,7 @@ int		ft_atoi(const char *str)
 	}
 	return (res * sign);
 }
+
 
 
 void	ft_array_separation(int argc, char **argv, t_data *new)
@@ -348,7 +368,7 @@ void ft_search_duplicate(int *dup, int count)
 	int i;
 
 	i = 0;
- while(i != count)
+	while(i != count)
 	{
 		if (dup[i] == dup[i + 1])
 			ft_error();
@@ -357,14 +377,109 @@ void ft_search_duplicate(int *dup, int count)
 	free(dup);
 }
 
+//1 2 3 4 5 6 7 8 9
+
+t_stack_a	*ft_create_a(t_data *new)
+{
+	t_stack_a	*new_list;
+	t_stack_a	*first_list;
+	int			i;
+
+	i = 0;
+	new_list = (t_stack_a *)malloc(sizeof(t_stack_a));
+	first_list = new_list;
+	while (i < new->point_a)
+	{
+		new_list->next = (t_stack_a *)malloc(sizeof(t_stack_a));
+		new_list->data = new->a[i];
+		if (i == new->point_a - 1)
+			new_list->next = NULL;
+		else
+			new_list = new_list->next;
+		i++;
+	}
+	return (first_list);
+}
+
+void 	ft_sb(t_stack_b *first)
+{
+	int		buff;
+
+	buff = first->data;
+	first->data = first->next->data;
+	first->next->data = buff;
+}
+
+t_stack_b		*ft_create_b(t_data *new)
+{
+	t_stack_b	*new_list;
+	t_stack_b	*first_list;
+	int			i;
+
+	i = 0;
+	new_list = (t_stack_b *)malloc(sizeof(t_stack_b));
+	first_list = new_list;
+	while (i < new->point_a)
+	{
+		new_list->next = (t_stack_b *)malloc(sizeof(t_stack_b));
+		new_list->data = 0;
+		if (i == new->point_a - 1)
+			new_list->next = NULL;
+		else
+			new_list = new_list->next;
+		i++;
+	}
+	return (first_list);
+}
+
+void 	ft_sa(t_stack_a *first)
+{
+	int		buff;
+
+	buff = first->data;
+	first->data = first->next->data;
+	first->next->data = buff;
+}
+
+void 	ft_pb(t_stack_a *first)
+{
+	int		buff;
+
+	buff = first->data;
+	first->data = first->next->data;
+	first->next->data = buff;
+}
+
+
+//pa: push a - возьмите первый элемент вверху  b и поместите его вверху  a.
+//Ничего не делать, если  b пусто.
+
+void	pb(t_stack_a *fa, t_stack_b *fb)
+{
+	
+}
+
 void	ft_duplicate_check(t_data *new)
 {
-	int 	*dup;
+	int *dup;
+	t_stack_a *first_a;
+	t_stack_a *next;
+	t_stack_b *stack_b;
 
-	dup = (int *)malloc(sizeof(int) * (new->point_a));
+	stack_b =
+	dup = (int *) malloc(sizeof(int) * (new->point_a));
 	dup = ft_intcpy(dup, new->a, new->point_a);
-	ft_quick_sort(dup,0,new->point_a - 1);
+	ft_quick_sort(dup, 0, new->point_a - 1);
 	ft_search_duplicate(dup, new->point_a - 1);
+	first_a = ft_create_a(new);
+	stack_b = ft_create_b(new);
+	//ft_sa(first_list);
+	ft_pb(first_a,stack_b);
+	while (first_a)
+	{
+		printf("[%d]\n", first_a->data);
+		first_a = first_a->next;
+	}
 }
 
 int		main(int argc, char **argv)
@@ -386,12 +501,5 @@ int		main(int argc, char **argv)
 	ft_validate(argc, argv);
 	ft_array_separation(argc, argv, &new);
 	ft_duplicate_check(&new);
-	int j = 0;
-	while (j < new.point_a)
-	{
-		printf("[%d] [%d]\n",new.a[j],new.b[j]);
-		j++;
-	}
-	printf(" A   B");
 	return (0);
 }
