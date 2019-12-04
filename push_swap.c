@@ -12,26 +12,18 @@ typedef struct			s_data
 	int					point_a;
 }						t_data;
 
-typedef struct 			s_stack_b
+typedef struct 			s_stack
 {
 	int 				data;
-	struct s_stack_b	*next;
-}						t_stack_b;
-
-typedef struct 			s_stack_a
-{
-	int 				data;
-	struct s_stack_a	*next;
-}						t_stack_a;
-
-typedef struct			s_stack
-{
-	int 				data;
-	t_stack_a			*a;
-	t_stack_b			*b;
-	t_stack_a			*first_a;
-	t_stack_b			*first_b;
+	struct s_stack		*next;
 }						t_stack;
+
+typedef struct			s_stacks
+{
+	int 				data;
+	t_stack				*a;
+	t_stack				*b;
+}						t_stacks;
 
 
 //__________________________StrSplit
@@ -381,62 +373,39 @@ void ft_search_duplicate(int *dup, int count)
 
 //1 2 3 4 5 6 7 8 9
 
-void	*ft_create_a(t_data *new, t_stack *stack)
+t_stack  *ft_create_stack(int *buff, int count)
 {
-	int			i;
+	int i;
+	t_stack	*new_list;
+	t_stack *first_element;
 
 	i = 0;
-	stack->a = (t_stack_a *)malloc(sizeof(t_stack_a));
-	stack->first_a = stack->a;
-	while (i < new->point_a)
+	new_list = (t_stack *)malloc(sizeof(t_stack));
+	first_element = new_list;
+	while (i < count)
 	{
-		stack->a->next = (t_stack_a *)malloc(sizeof(t_stack_a));
-		stack->a->data = new->a[i];
-		if (i == new->point_a - 1)
-			stack->a->next = NULL;
-		else
-			stack->a = stack->a->next;
-		i++;
-	}
-}
-
-void 	ft_sb(t_stack_b *first)
-{
-	int		buff;
-
-	buff = first->data;
-	first->data = first->next->data;
-	first->next->data = buff;
-}
-
-void		*ft_create_b(t_data *new, t_stack *stack)
-{
-	t_stack_b	*new_list;
-	int			i;
-
-	i = 0;
-	new_list = (t_stack_b *)malloc(sizeof(t_stack_b));
-	stack->first_b = new_list;
-	while (i < new->point_a)
-	{
-		new_list->next = (t_stack_b *)malloc(sizeof(t_stack_b));
-		new_list->data = 0;
-		if (i == new->point_a - 1)
+		new_list->next = (t_stack *)malloc(sizeof(t_stack));
+		new_list->data = buff[i];
+		if (i == (count - 1))
 			new_list->next = NULL;
 		else
 			new_list = new_list->next;
 		i++;
 	}
+    printf("\n   -*-*-* INIT *-*-*- \n");
+	return (first_element);
 }
 
-/*void 	ft_sa(t_stack_a *first)
+void 	ft_s(t_stack *stack)
 {
 	int		buff;
 
-	buff = first->data;
-	first->data = first->next->data;
-	first->next->data = buff;
+    printf("\n\t-*-*-* SA *-*-*- \n");
+	buff = stack->data;
+	stack->data = stack->next->data;
+	stack->next->data = buff;
 }
+/*
 
 void 	ft_sb(t_stack_a *first)
 {
@@ -451,30 +420,72 @@ void 	ft_sb(t_stack_a *first)
 //pb: push b - возьмите первый элемент вверху  a и поместите его вверху  b.
 //Ничего не делать, если  b пусто.
 
-void	ft_pb(t_stack_a *fa, t_stack_b *fb)
+void	ft_pb(t_stacks *s)
 {
+    t_stack     *buff;
+    t_stack     *del;
 
+
+    printf("\n\t-*-*-* PB *-*-*- \n");
+    buff = s->a;
+    s->a = s->a->next;
+    buff->next = s->b;
+    s->b = buff;
+}
+
+void    ft_print_stack(t_stacks *s)
+{
+    t_stack     *a;
+    t_stack     *b;
+
+    a = s->a;
+    b = s->b;
+    printf("\nSTACK A: ");
+    while (s->a) {
+        printf("[%d] ", s->a->data);
+        s->a = s->a->next;
+    }
+    printf("\nSTACK B: ");
+    if (s->b != NULL)
+    {
+        while (s->b)
+        {
+            printf("[%d] ", s->b->data);
+            s->b = s->b->next;
+        }
+    }
+    printf("\n\n");
+    s->a = a;
+    s->b = b;
 }
 
 void	ft_duplicate_check(t_data *new)
 {
 	int *dup;
-	t_stack_a *next;
-	t_stack		stack;
+	t_stacks	s;
 
 	dup = (int *) malloc(sizeof(int) * (new->point_a));
 	dup = ft_intcpy(dup, new->a, new->point_a);
 	ft_quick_sort(dup, 0, new->point_a - 1);
 	ft_search_duplicate(dup, new->point_a - 1);
-	ft_create_a(new,&stack);
-	ft_create_b(new, &stack);
-	//ft_sa(first_list);
-	//ft_pb(first_a,stack_b);
-	while (stack.first_a)
+	s.a = ft_create_stack(new->a, new->point_a);
+	s.b = NULL;
+    ft_print_stack(&s);
+    ft_s(s.a);
+    ft_print_stack(&s);
+	ft_pb(&s);
+    ft_print_stack(&s);
+    ft_pb(&s);
+    ft_print_stack(&s);
+    ft_s(s.a);
+    ft_print_stack(&s);
+    ft_s(s.a);
+    ft_print_stack(&s);
+	/*while (s.a)
 	{
-		printf("[%d]\n", stack.first_a->data);
-		stack.first_a = stack.first_a->next;
-	}
+		printf("[%d]\n", s.a->data);
+		s.a = s.a->next;
+	}*/
 }
 
 int		main(int argc, char **argv)
