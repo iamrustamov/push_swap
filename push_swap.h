@@ -17,6 +17,14 @@
 #include <stdlib.h>
 #include "libft/libft.h"
 
+typedef struct			s_steps
+{
+	int					count_a;
+	int 				count_b;
+	int 				dest_a;
+	int 				dest_b;
+}						t_steps;
+
 
 typedef struct			s_data
 {
@@ -28,6 +36,7 @@ typedef struct 			s_stack
 {
   int 				data;
   int 				step;
+  int				rotate;
   struct s_stack		*next;
 }						t_stack;
 

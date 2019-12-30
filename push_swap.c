@@ -23,10 +23,37 @@ void 	ft_sb(t_stack_a *first)
 
 
 
+void    ft_print_stacks(t_stacks *s)
+{
+	t_stack     *a;
+	t_stack     *b;
+
+	a = s->a;
+	b = s->b;
+	printf("\t   Начало\n\t\t  ↓");
+	printf("\nSTACK A: ");
+	while (s->a) {
+		printf("[%d] ", s->a->data);
+		s->a = s->a->next;
+	}
+	printf("\nSTACK B: ");
+	if (s->b != NULL)
+	{
+		while (s->b)
+		{
+			printf("[%d] ", s->b->data);
+			s->b = s->b->next;
+		}
+	}
+	printf("\n\n");
+	s->a = a;
+	s->b = b;
+}
+
 
 void    ft_print_stack(t_stacks *s)
 {
-    t_stack     *a;
+    /*t_stack     *a;
     t_stack     *b;
 
     a = s->a;
@@ -47,8 +74,9 @@ void    ft_print_stack(t_stacks *s)
         }
     }
     printf("\n\n");
-    s->a = a;
-    s->b = b;
+	s->a = a;
+	s->b = b;*/
+    return ;
 }
 
 int		main(int argc, char **argv)
@@ -61,6 +89,6 @@ int		main(int argc, char **argv)
 	ft_array_separation(argc, argv, &new);
 	ft_duplicate_check(&new, &staks);
 	ft_init_stack(&new,&staks);
-
+	ft_print_stacks(&staks);
 	return (0);
 }

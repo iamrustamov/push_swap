@@ -26,7 +26,7 @@ void 	ft_sa(t_stack *a)
 
   if (a == NULL || a->next == NULL)
 	return ;
-  printf("\n  -*-*-* SA *-*-*- \n");
+  printf("sa\n");
   buff = a->data;
   a->data = a->next->data;
   a->next->data = buff;
@@ -46,7 +46,7 @@ void 	ft_sb(t_stack *b)
 
   if (b == NULL || b->next == NULL)
 	return ;
-  printf("\n-*-*-* SB *-*-*- \n");
+  printf("sb\n");
   buff = b->data;
   b->data = b->next->data;
   b->next->data = buff;
@@ -83,7 +83,7 @@ void	ft_pa(t_stacks *s)
 		return ;
 	s->count_a += 1;
 	s->count_b -= 1;
-	printf("\n\t-*-*-* PA *-*-*- \n");
+	printf("pa\n");
 	buff = s->b;
 	s->b = s->b->next;
 	buff->next = s->a;
@@ -104,7 +104,7 @@ void	ft_pb(t_stacks *s)
 
 	if (s->a == NULL)
 		return ;
-	printf("\n\t-*-*-* PB *-*-*- \n");
+	printf("pb\n");
 	s->count_a -= 1;
 	s->count_b += 1;
 	buff = s->a;
@@ -126,7 +126,7 @@ void ft_ra(t_stack **a)
 	t_stack		*rotate_list;
 	t_stack		*last_list;
 
-	printf("\n  -*-*-* RA *-*-*- \n");
+	printf("ra\n");
 	if ((*a) == NULL || (*a)->next == NULL)
 		return ;
 	rotate_list = *a;
@@ -154,7 +154,7 @@ void ft_rb(t_stack **b)
 
 	if ((*b) == NULL || (*b)->next == NULL)
 		return ;
-	printf("\n  -*-*-* RB *-*-*- \n");
+	printf("rb\n");
 	rotate_list = *b;
 	first_list = (*b)->next;
 	last_list = *b;
@@ -173,7 +173,7 @@ void ft_rb(t_stack **b)
 
 void  ft_rr(t_stacks *s)
 {
-	printf("\n\t-*-*-* RR *-*-*- \n");
+	printf("rr\n");
 	ft_ra(&s->a);
 	ft_print_stack(s);
 	ft_rb(&s->b);
@@ -203,7 +203,7 @@ void ft_rra(t_stack **a)
 	penultimate_list->next = NULL;
 	rotate_list->next = first_list;
 	*a = rotate_list;
-	printf("\n  -*-*-* RRA *-*-*- \n");
+	printf("rra\n");
 }
 
 
@@ -214,7 +214,7 @@ void ft_rra(t_stack **a)
 **		Нормы: -
 */
 
-void ft_rrb(t_stack **b)
+void 	ft_rrb(t_stack **b)
 {
 	t_stack		*first_list;
 	t_stack		*rotate_list;
@@ -230,7 +230,7 @@ void ft_rrb(t_stack **b)
 	penultimate_list->next = NULL;
 	rotate_list->next = first_list;
 	*b = rotate_list;
-	printf("\n  -*-*-* RRB *-*-*- \n");
+	printf("rrb\n");
 }
 
 /*
@@ -241,7 +241,7 @@ void ft_rrb(t_stack **b)
 
 void  ft_rrr(t_stacks *s)
 {
-	printf("\n\t-*-*-* RRR *-*-*- \n");
+	printf("rrr\n");
 	ft_rra(&s->a);
 	ft_print_stack(s);
 	ft_rrb(&s->b);
