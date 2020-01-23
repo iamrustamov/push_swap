@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_intcpy.c                                        :+:      :+:    :+:   */
+/*   ft_putchar.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: doberyn <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/22 15:37:32 by doberyn           #+#    #+#             */
-/*   Updated: 2019/12/22 15:37:33 by doberyn          ###   ########.fr       */
+/*   Created: 2019/12/22 16:17:31 by doberyn           #+#    #+#             */
+/*   Updated: 2019/12/22 16:17:32 by doberyn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-int		*ft_intcpy(int *dst, const int *src, int count)
+void	ft_putchar(char c)
 {
-	int	i;
-
-	i = 0;
-	while (i < count)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	return (dst);
+	write(1, &c, 1);
 }

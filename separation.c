@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "push_swap.h"
 
 /*
 **		ft_array_separation - Разбиваем получаемую
@@ -24,7 +24,7 @@
 void	ft_array_separation(int argc, char **argv, t_data *new)
 {
 	int		p;
-	size_t	i;
+	int		i;
 	int		*buff;
 	char	**mass;
 	int		count_element;

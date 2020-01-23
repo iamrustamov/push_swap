@@ -10,21 +10,41 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "push_swap.h"
 
+/*
+**		ft_sort - Распределяет стек в нужную функцию,
+** 		распределение зависит от количества элементов(чисел) в стеке.
+**			༺༻
+**		Состояние:	✓
+**		Нормы:		✓
+**			༺༻
+*/
 
+void	ft_sort(t_stacks *stacks)
+{
+	if (stacks->count_a <= 3)
+		ft_sort_3_element(stacks);
+	else if (stacks->count_a <= 5)
+		ft_sort_5_element(stacks);
+	else
+		ft_global_sort(stacks);
+}
 
 int		main(int argc, char **argv)
 {
 	t_data		*new;
 	t_stacks	*stacks;
 
-	new = (t_data *)malloc(sizeof(t_data));
-	stacks = (t_stacks *)malloc(sizeof(t_stacks));
-	new->count_element = 0;
-	stacks->a = NULL;
-	stacks->b = NULL;
-	if (ft_validation(argc, argv)) {
+	if (argc < 2)
+		exit(1);
+	if (!(new = (t_data *)malloc(sizeof(t_data))))
+		exit(1);
+	if (!(stacks = (t_stacks *)malloc(sizeof(t_stacks))))
+		exit(1);
+	ft_null(stacks, new);
+	if (ft_validation(argc, argv))
+	{
 		ft_array_separation(argc, argv, new);
 		ft_duplicate_check(new, stacks);
 		if (ft_is_sorted(new))

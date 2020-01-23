@@ -1,37 +1,32 @@
-#include "includes/push_swap.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   checker.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: doberyn <marvin@42.fr>                     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/01/05 16:28:44 by doberyn           #+#    #+#             */
+/*   Updated: 2020/01/05 16:28:48 by doberyn          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-void    ft_print_stacks(t_stacks *s)
-{
-	t_stack     *a;
-	t_stack     *b;
+#include "push_swap.h"
 
-	a = s->a;
-	b = s->b;
-	printf("\nSTACK A: ");
-	while (s->a) {
-		printf("[%d] ", s->a->data);
-		s->a = s->a->next;
-	}
-	printf("\nSTACK B: ");
-	if (s->b != NULL)
-	{
-		while (s->b)
-		{
-			printf("[%d] ", s->b->data);
-			s->b = s->b->next;
-		}
-	}
-	printf("\n\n");
-	s->a = a;
-	s->b = b;
-}
+/*
+**		ft_action_processing -  Функция получает действие в
+** 		виде строки и запускает нужную функцию.
+**			༺༻
+**		Состояние:	✓
+**		Нормы:		✓
+**			༺༻
+*/
 
-void	readin1(char *line, t_stacks *s)
+void	ft_action_processing(char *line, t_stacks *s)
 {
 	if (ft_strcmp(line, "sa") == 0)
-		ft_sa(s->a,0);
+		ft_sa(s->a, 0);
 	else if (ft_strcmp(line, "sb") == 0)
-		ft_sb(s->b,0);
+		ft_sb(s->b, 0);
 	else if (ft_strcmp(line, "ss") == 0)
 		ft_ss(s, 0);
 	else if (ft_strcmp(line, "pa") == 0)
@@ -41,28 +36,37 @@ void	readin1(char *line, t_stacks *s)
 	else if (ft_strcmp(line, "ra") == 0)
 		ft_ra(&s->a, 0);
 	else if (ft_strcmp(line, "rb") == 0)
-		ft_rb(&s->b,0);
+		ft_rb(&s->b, 0);
 	else if (ft_strcmp(line, "rr") == 0)
 		ft_rr(s, 0);
 	else if (ft_strcmp(line, "rra") == 0)
-		ft_rra(&s->a,0);
+		ft_rra(&s->a, 0);
 	else if (ft_strcmp(line, "rrb") == 0)
-		ft_rrb(&s->b,0);
+		ft_rrb(&s->b, 0);
 	else if (ft_strcmp(line, "rrr") == 0)
 		ft_rrr(s, 0);
 	else
 		ft_error();
 }
 
-void	readin(t_stacks *s)
+/*
+**		ft_read_action - функция которая ожидает
+** 		ввода команд из консоли и перенаправляет
+** 		команду в функцию обработки.
+**			༺༻
+**		Состояние:	✓
+**		Нормы:		✓
+**			༺༻
+*/
+
+void	ft_read_action(t_stacks *s)
 {
 	char *line;
 
 	line = NULL;
 	while (get_next_line(0, &line))
 	{
-		readin1(line,s);
-		//ft_print_stacks(s);
+		ft_action_processing(line, s);
 		free(line);
 		line = NULL;
 	}
@@ -72,11 +76,20 @@ void	readin(t_stacks *s)
 		line = NULL;
 	}
 }
+
+/*
+**		ft_stack_sorted -  проверка стека на отсортированность.
+**			༺༻
+**		Состояние:	✓
+**		Нормы:		✓
+**			༺༻
+*/
+
 int		ft_stack_sorted(t_stacks *s)
 {
-	int i;
-	int buff;
-	t_stack *save;
+	int		i;
+	int		buff;
+	t_stack	*save;
 
 	i = 0;
 	save = s->a;
@@ -87,14 +100,13 @@ int		ft_stack_sorted(t_stacks *s)
 		if (buff > s->a->data)
 		{
 			s->a = save;
-			return (1);
+			return (0);
 		}
 		i++;
 	}
 	s->a = save;
-	return (0);
+	return (1);
 }
-/*
 
 int		main(int argc, char **argv)
 {
@@ -102,32 +114,25 @@ int		main(int argc, char **argv)
 	t_stacks	*stacks;
 
 	if (argc < 2)
-		exit(0);
-	new = (t_data *)malloc(sizeof(t_data));
-	stacks = (t_stacks *)malloc(sizeof(t_stacks));
-	new->count_element = 0;
-	stacks->a = NULL;
-	stacks->b = NULL;
+		exit(1);
+	if (!(new = (t_data *)malloc(sizeof(t_data))))
+		exit(1);
+	if (!(stacks = (t_stacks *)malloc(sizeof(t_stacks))))
+		exit(1);
+	ft_null(stacks, new);
 	if (ft_validation(argc, argv))
 	{
 		ft_array_separation(argc, argv, new);
 		ft_duplicate_check(new, stacks);
 		ft_init_stack(new, stacks);
-		readin(stacks);
-		//printf("cound_a:%d\ncoudn_b:%d\nresult sort:%d",stacks->count_a,stacks->count_b,ft_stack_sorted(stacks));
-		if ((stacks->count_a == 1 || !(ft_stack_sorted(stacks))) && stacks->count_b == 0)
-			ft_putstr("OK\n");
+		ft_read_action(stacks);
+		if ((ft_stack_sorted(stacks)) && stacks->count_b == 0)
+			write(1, "OK\n", 3);
 		else
-			ft_putstr("KO\n");
-		*/
-/*if ((check_ok(p) == 1 || p->s_a == 0) && p->s_b < 0)
-			ft_putstr("OK\n");
-		else
-			ft_putstr("KO\n");*//*
-
+			write(1, "KO\n", 3);
 	}
 	ft_free_stack(stacks);
 	free(new);
 	free(stacks);
 	return (0);
-}*/
+}

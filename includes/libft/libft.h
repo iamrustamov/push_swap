@@ -12,21 +12,23 @@
 
 #ifndef LIBFT_H
 # define LIBFT_H
+# define MAXINT 2147483647
+# define MININT -2147483648
+# define BUFF_SIZE 32
 # include <string.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include "push_swap.h"
-#define MAXINT 2147483647
-#define MININT -2147483648
+# include <fcntl.h>
 
+int		get_next_line(const int fd, char **line);
 int		ft_atoi(const char *str);
 int		*ft_intcpy(int *dst, const int *src, int count);
-void	ft_error();
+void	ft_error(void);
 void	ft_putchar(char c);
 void	ft_putstr(char *str);
 void	ft_putnbr(int n);
-char			**ft_strsplit(char const *s, int word);
-void		ft_rewriting(char const *s, char **mass);
+char	**ft_strsplit(char const *s, int word);
+void	ft_rewriting(char const *s, char **mass);
 int		ft_wordmalloc(char const *s, char **mass);
 int		ft_countword(char const *s);
 char	*ft_strchr(const char *s, int c);

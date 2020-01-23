@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "push_swap.h"
 
 /*
 **		ft_validation - функция, которая принимает введенные пользователем
@@ -23,8 +23,8 @@
 
 int		ft_validation(int argc, char **argv)
 {
-	size_t	i;
-	int		ret;
+	int i;
+	int ret;
 
 	ret = 0;
 	i = 1;

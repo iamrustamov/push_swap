@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   initialization.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: doberyn <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/push_swap.h"
+#include "push_swap.h"
 
 /*
 **		ft_init_stack - Инициализируем стеки.
@@ -96,20 +96,21 @@ void	ft_free_stack(t_stacks *stacks)
 }
 
 /*
-**		ft_sort - Распределяет стек в нужную функцию,
-** 		распределение зависит от количества элементов(чисел) в стеке.
+**		ft_null - Обнуляем данные в структуре.
 **			༺༻
 **		Состояние:	✓
 **		Нормы:		✓
 **			༺༻
 */
 
-void	ft_sort(t_stacks *stacks)
+void	ft_null(t_stacks *stacks, t_data *new)
 {
-	if (stacks->count_a <= 3)
-		ft_sort_3_element(stacks);
-	else if (stacks->count_a <= 5)
-		ft_sort_5_element(stacks);
-	else
-		ft_global_sort(stacks);
+	new->count_element = 0;
+	stacks->count_a = 0;
+	stacks->count_b = 0;
+	stacks->min = 0;
+	stacks->max = 0;
+	stacks->med = 0;
+	stacks->a = NULL;
+	stacks->b = NULL;
 }

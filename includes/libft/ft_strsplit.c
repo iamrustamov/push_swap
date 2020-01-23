@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
 int		ft_countword(char const *s)
 {
@@ -56,7 +56,7 @@ int		ft_wordmalloc(char const *s, char **mass)
 	return (0);
 }
 
-void		ft_rewriting(char const *s, char **mass)
+void	ft_rewriting(char const *s, char **mass)
 {
 	int i;
 	int j;
@@ -77,7 +77,7 @@ void		ft_rewriting(char const *s, char **mass)
 	}
 }
 
-char			**ft_strsplit(char const *s, int word)
+char	**ft_strsplit(char const *s, int word)
 {
 	char	**mass;
 	int		res;

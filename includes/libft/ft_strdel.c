@@ -1,32 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_strdel.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: doberyn <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/22 16:17:52 by doberyn           #+#    #+#             */
-/*   Updated: 2019/12/22 16:17:55 by doberyn          ###   ########.fr       */
+/*   Created: 2019/04/12 15:06:12 by doberyn           #+#    #+#             */
+/*   Updated: 2019/04/18 20:47:44 by doberyn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-void	ft_putnbr(int n)
+void	ft_strdel(char **as)
 {
-	if (n == -2147483648)
-		ft_putstr("-2147483648");
-	else
+	if (as != NULL)
 	{
-		if (n < 0)
-		{
-			ft_putchar('-');
-			n = -n;
-		}
-		if (n > 9)
-		{
-			ft_putnbr(n / 10);
-		}
-		ft_putchar((n % 10) + '0');
+		free(*as);
+		*as = NULL;
 	}
 }

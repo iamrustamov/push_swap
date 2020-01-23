@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "includes/get_next_line.h"
+#include "libft.h"
 
 static int	finish(char **str, char **line)
 {

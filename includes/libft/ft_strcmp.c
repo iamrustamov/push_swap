@@ -1,22 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr.c                                        :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: doberyn <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/12/22 16:17:31 by doberyn           #+#    #+#             */
-/*   Updated: 2019/12/22 16:17:32 by doberyn          ###   ########.fr       */
+/*   Created: 2019/04/09 13:38:12 by doberyn           #+#    #+#             */
+/*   Updated: 2019/04/18 19:18:49 by doberyn          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/libft.h"
+#include "libft.h"
 
-void	ft_putstr(char *str)
+int		ft_strcmp(const char *s1, const char *s2)
 {
-	while (*str)
+	int i;
+
+	i = 0;
+	while (s1[i] != '\0' || s2[i] != '\0')
 	{
-		ft_putchar(*str);
-		++str;
+		if (s1[i] != s2[i])
+			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+		i++;
 	}
+	return (0);
 }
